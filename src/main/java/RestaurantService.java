@@ -6,6 +6,7 @@ import java.time.LocalTime;
 public class RestaurantService {
     private static List<Restaurant> restaurants = new ArrayList<>();
 
+
     public Restaurant findRestaurantByName(String restaurantName){
 
 
@@ -26,7 +27,7 @@ public class RestaurantService {
         return newRestaurant;
     }
 
-    public Restaurant removeRestaurant(String restaurantName) throws restaurantNotFoundException {
+    public Restaurant removeRestaurant(String restaurantName) {
         Restaurant restaurantToBeRemoved = findRestaurantByName(restaurantName);
         restaurants.remove(restaurantToBeRemoved);
         return restaurantToBeRemoved;

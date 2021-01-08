@@ -2,13 +2,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import javax.print.DocFlavor;
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
     Restaurant restaurant;
-    //REFACTOR ALL THE REPEATED LINES OF CODE
+    Order order;
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
@@ -19,8 +20,8 @@ class RestaurantTest {
         LocalTime openingTime = LocalTime.parse("10:30:00");
         LocalTime closingTime = LocalTime.parse("22:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
-        boolean isrestaurantopen =restaurant.isRestaurantOpen();
-        assertTrue(isrestaurantopen);
+
+        assertTrue(restaurant.isRestaurantOpen());
 
     }
 
@@ -31,8 +32,7 @@ class RestaurantTest {
         LocalTime openingTime = LocalTime.parse("10:30:00");
         LocalTime closingTime = LocalTime.parse("18:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
-        boolean isrestaurantopen =restaurant.isRestaurantOpen();
-        assertFalse(isrestaurantopen);
+        assertFalse(restaurant.isRestaurantOpen());
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -51,6 +51,7 @@ class RestaurantTest {
         restaurant.addToMenu("Sizzling brownie",319);
         assertEquals(initialMenuSize+1,restaurant.getMenu().size());
     }
+
     @Test
     public void removing_item_from_menu_should_decrease_menu_size_by_1() throws itemNotFoundException {
         LocalTime openingTime = LocalTime.parse("10:30:00");
@@ -75,4 +76,43 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<ORDER>>>>>>>>>>>>>>>>>>>>>>>>
+    @Test
+
+    public void adding_orders_order_list_should_return_correct_total_value_of_the_orders() {
+        Order order=new Order("Burger",9);
+        order.addOrder("chicken", 3);
+        order.addOrder("Sweet corn soup", 9);
+        assertEquals(21,order.calculateTotalOrder());
+    }
+
+    @Test
+    public void adding_orders_order_list_should_increase_list_size_by_1(){
+
+        order =new Order("chicken", 340);
+        order.addOrder("Sweet corn soup",119);
+        order.addOrder("Vegetable lasagne", 269);
+        order.addOrder("Burger",264);
+        int initialOrderSize = order.getOrders().size();
+        order.addOrder("Sizzling brownie",319);
+
+        assertEquals(initialOrderSize+1,order.getOrders().size());
+    }
+    @Test
+    public void adding_orders_will_return_total_order_amount_not_null() {
+
+        order =new Order("chicken", 340);
+        order.addOrder("Sweet corn soup", 119);
+        order.addOrder("Vegetable lasagne", 269);
+        order.addOrder("Burger", 264);
+        order.addOrder("Sizzling brownie", 319);
+        int totalOrder = order.calculateTotalOrder();
+        assertNotNull(totalOrder);
+        //throw_excepction_when_orders_does_not_exist
+
+    }
+
+
+
+
 }
